@@ -10,7 +10,7 @@ import express from "express";
 //   createArtist,
 //   updateArtistById,
 //   deleteArtistById,
-// } from "./resource_one.js";
+// } from "./artists.js";
 
 
 // Import your helper functions for your second resource here
@@ -20,7 +20,7 @@ import express from "express";
 //   createAlbum,
 //   updateAlbumById,
 //   deleteAlbumById,
-// } from "./resource_two.js";
+// } from "./albums.js";
 
 
 
