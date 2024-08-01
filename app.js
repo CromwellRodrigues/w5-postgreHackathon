@@ -5,21 +5,21 @@ import express from "express";
 
 // Import your helper functions for your first resource here
 // import {
-//   getResourceOne,
-//   getResourceOneById,
-//   createResourceOne,
-//   updateResourceOneById,
-//   deleteResourceOneById,
+//   getArtists,
+//   getArtistById,
+//   createArtist,
+//   updateArtistById,
+//   deleteArtistById,
 // } from "./resource_one.js";
 
 
 // Import your helper functions for your second resource here
 // import {
-//   getResourceTwo,
-//   getResourceTwoById,
-//   createResourceTwo,
-//   updateResourceTwoById,
-//   deleteResourceTwoById,
+//   getAlbums,
+//   getAlbumById,
+//   createAlbum,
+//   updateAlbumById,
+//   deleteAlbumById,
 // } from "./resource_two.js";
 
 
@@ -37,25 +37,25 @@ app.use(express.json()); // express.json() middleware is used to parse incoming 
 // Resource One Route Handlers
 
 // Endpoint to retrieve all <resource_one>
-app.get("/resourceone/", async function (req, res) {
+app.get("/artist/", async function (req, res) {
     console.log("I'm alive");
     res.status(200).send("I'm alive!");
 });
 
 // Endpoint to retrieve a <resource_one> by id
-app.get("/resourceone/:id", async function (req, res) {
+app.get("/artist/:id", async function (req, res) {
 });
 
 // Endpoint to create a new <resource_one>
-app.post("/resourceone/", async function (req, res) {
+app.post("/artist/", async function (req, res) {
 });
 
 // Endpoint to update a specific <resource_one> by id
-app.patch("/resourceone/:id", async function (req, res) {
+app.patch("/artist/:id", async function (req, res) {
 });
 
 // Endpoint to delete a specific <resource_one> by id
-app.delete("/resourceone/:id", async function (req, res) {
+app.delete("/artist/:id", async function (req, res) {
 });
 
 
@@ -64,25 +64,23 @@ app.delete("/resourceone/:id", async function (req, res) {
 // Resource Two Route Handlers
 
 // Endpoint to retrieve all <resource_twos>
-app.get("/resourcetwo/", async function (req, res) {
-    const authors = await getAuthors();
-    res.status(200).json({ status: "success", data: authors });
+app.get("/album/", async function (req, res) {
   });
   
   // Endpoint to retrieve a <resource_twos> by id
-  app.get("/resourcetwo/:id", async function (req, res) {
+  app.get("/album/:id", async function (req, res) {
   });
   
   // Endpoint to create a new <resource_twos>
-  app.post("/resourcetwo/", async function (req, res) {
+  app.post("/album/", async function (req, res) {
   });
   
   // Endpoint to update a specific <resource_twos> by id
-  app.patch("/resourcetwo/:id", async function (req, res) {
+  app.patch("/album/:id", async function (req, res) {
   });
   
   // Endpoint to delete a specific <resource_twos> by id
-  app.delete("/resourcetwo/:id", async function (req, res) {
+  app.delete("/album/:id", async function (req, res) {
   });
 
 
