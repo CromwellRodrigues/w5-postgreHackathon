@@ -1,5 +1,5 @@
 // Import the required modules
-import express from "express";
+import express, { request } from "express";
 
 
 
@@ -14,13 +14,13 @@ import {
 
 
 // Import your helper functions for your second resource here
-// import {
-//   getAlbums,
-//   getAlbumById,
-//   createAlbum,
-//   updateAlbumById,
-//   deleteAlbumById,
-// } from "./albums.js";
+import {
+  getAlbums,
+  getAlbumById,
+  createAlbum,
+  updateAlbumById,
+  deleteAlbumById,
+} from "./albums.js";
 
 
 
@@ -147,15 +147,51 @@ app.delete("/artist/:id", async function (req, res) {
 
 // Endpoint to retrieve all <resource_twos>
 app.get("/album/", async function (req, res) {
+
+  try {
+    const result = await getAlbums(); // to get all albums from albums.js
+
+    res.status(200).json({ success: true, payload: result });
+  }  // sends back a response with all the albums
+
+  catch (error) {
+
+    
+    res.status(500).json ({success : false, payload: error}); // handle errors and give back the error message.
+  }
+});
+  
+  // Endpoint to retrieve a album  by id
+app.get("/album/:id", async function (req, res) {
+    
+  try {
+    const result = await getAlbumById(req.params.id);
+    // invoke function to get specific album from the url so that we can access the particular album.
+
+    if (!result) {
+      res.status(404).json({ success: false, payload: "No album with that id was found" });
+
+      return;
+      
+    }
+
+    res.status(200).json({ success: true, payload: result }); // send back a response with the particular artist details
+
+
+  }  catch (error) {
+
+    res.status(500).json({ success: false, payload: error }) 
+    } //handles any errors giving back the error in the message.
+  
   });
   
-  // Endpoint to retrieve a <resource_twos> by id
-  app.get("/album/:id", async function (req, res) {
-  });
+  // Endpoint to create a new album
+app.post("/album/", async function (req, res) {
+
+
+});
   
-  // Endpoint to create a new <resource_twos>
-  app.post("/album/", async function (req, res) {
-  });
+  
   
   // Endpoint to update a specific <resource_twos> by id
   app.patch("/album/:id", async function (req, res) {
