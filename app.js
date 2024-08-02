@@ -1,6 +1,6 @@
 // Import the required modules
 import express, { request } from "express";
-
+import helmet from helmet;
 
 
 // Import your helper functions for your first resource here
@@ -23,18 +23,15 @@ import {
 } from "./albums.js";
 
 
-
 // Initialize the express app
 const app = express();
 // Retrieve the port number from environment variables
 const PORT = process.env.PORT;
 
 app.use(express.json()); // express.json() middleware is used to parse incoming JSON requests
+app.use(helmet()); // use helmet to secure application
 
-
-
-
-// Resource One Route Handlers
+// Artist Route Handlers
 
 // Endpoint to retrieve all artists
 app.get("/artist/", async function (req, res) {
@@ -119,7 +116,7 @@ app.patch("/artist/:id", async function (req, res) {
   }
 });
 
-// Endpoint to delete a specific <resource_one> by id
+// Endpoint to delete a specific artist by id
 app.delete("/artist/:id", async function (req, res) {
 
   try {
@@ -141,11 +138,9 @@ app.delete("/artist/:id", async function (req, res) {
 });
 
 
+// Album Route Handlers
 
-
-// Resource Two Route Handlers
-
-// Endpoint to retrieve all <resource_twos>
+// Endpoint to retrieve all albums
 app.get("/album/", async function (req, res) {
 
   try {
@@ -161,7 +156,7 @@ app.get("/album/", async function (req, res) {
   }
 });
   
-  // Endpoint to retrieve a album  by id
+// Endpoint to retrieve a album  by id
 app.get("/album/:id", async function (req, res) {
     
   try {
@@ -183,11 +178,9 @@ app.get("/album/:id", async function (req, res) {
     res.status(500).json({ success: false, payload: error }) 
     } //handles any errors giving back the error in the message.
 
-  });
+});
   
-
-
-  // Endpoint to create a new album
+// Endpoint to create a new album
 app.post("/album/", async function (req, res) {
 
   try {
@@ -208,20 +201,15 @@ res.status(500).json({success: false, payload: error}) // handle any errors - gi
   }
 });
 
+// Endpoint to update a specific album by id
+app.patch("/album/:id", async function (req, res) {
+  // incomplete
+});
   
-  
-  
-  // Endpoint to update a specific <resource_twos> by id
-  app.patch("/album/:id", async function (req, res) {
-  });
-  
-  // Endpoint to delete a specific <resource_twos> by id
-  app.delete("/album/:id", async function (req, res) {
-  });
-
-
-
-
+// Endpoint to delete a specific album by id
+app.delete("/album/:id", async function (req, res) {
+  //incomplete
+});
 
 // Start the server and listen on the specified port
 app.listen(PORT, function () {
