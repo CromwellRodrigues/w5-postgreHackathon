@@ -182,14 +182,32 @@ app.get("/album/:id", async function (req, res) {
 
     res.status(500).json({ success: false, payload: error }) 
     } //handles any errors giving back the error in the message.
-  
+
   });
   
+
+
   // Endpoint to create a new album
 app.post("/album/", async function (req, res) {
 
+  try {
 
+const result = await createAlbum(req.body)//invoke a specific album - this album will come from the body within the post req
+
+if (!req.body.title, !req.body.published_date, !req.body.artist_id) {
+  res.status(404).json({ success: false, payload: "Please provide all information for the new ALbum"})// if the result is empty then the user didn't give a valid req for the album
+  return // return is needed to break out of the event listener.
+}
+
+res.status(200).json({sucecess: true, payload: result}) //send a resposne with the new album if successful
+
+  } catch(error) {
+
+res.status(500).json({success: false, payload: error}) // handle any errors - give back an error message if so. 
+
+  }
 });
+
   
   
   
