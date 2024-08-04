@@ -1,4 +1,5 @@
 // Import the 'pool' object so our helper functions can interact with the PostgreSQL database
+import { query } from "express";
 import { pool } from "./db/index.js";
 
 export async function getArtists() {
@@ -51,7 +52,39 @@ export async function getArtistById(id) {
 }
 
 export async function createArtist(artist) {
-	// Query the database to create an artist and return the newly created artist
+  // Query the database to create an artist and return the newly created artist
+  
+  const queryCreateArtist = `
+    INSERT INTO artists
+    (name)
+    VALUES ($1)
+    RETURNING *
+  `
+
+  try {
+    const values = [artist.name];
+    // to ensure artist name is provided
+
+
+    if (!artist.name) {
+      console.error('Artist name is required')
+      return null;
+    }
+    
+    const result = await pool.query(queryCreateArtist, values);
+
+    return result.rows[0];
+      
+    
+
+	} catch (error) {
+		console.error(`Error creating an artist : ${error.message}`); //log the error for debugging
+
+		throw new Error(
+			`Failed to create an artist: ${error.message}`
+		); // re-throw the error handled by the caller
+	}
+
 }
 
 export async function updateArtistById(id, artist) {
