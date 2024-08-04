@@ -40,9 +40,9 @@ app.get("/artist/", async function (req, res) {
   // res.send("Hello world!");
 
   try {
-    const allArtists = await getArtists();
+    const allArtists = await getArtists(); //invoke function getArtists()
 
-    res.status(200)
+    res.status(200) // response if endpoint is successful
       .json({
         status: "success",
         data: allArtists
@@ -50,11 +50,12 @@ app.get("/artist/", async function (req, res) {
     
   } catch (error) {
 
-    console.error(`Error getting Artist List : ${error}`);
+    console.error(`Error getting Artist List : ${error}`); // handle error message in console.
 
     throw error;
 
-    res.status(500).json({
+    // error status message 
+    res.status(500).json({ 
       status: "fail",
       data: error
     })
