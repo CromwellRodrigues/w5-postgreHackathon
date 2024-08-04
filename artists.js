@@ -98,31 +98,49 @@ export async function updateArtistById(id, name) {
   `
 
 
-try {
+  try {
     // validate artist name 
     if (!name) {
       console.error('Artist name is required')
       return null;
-  }
+    }
   
-  // send query to database, ID is taken from the ID argument in function call in the endpoint, name will be got from the req body, raw, json input
-  const result = await pool.query(queryUpdateArtist, [name,id]);
+    // send query to database, ID is taken from the ID argument in function call in the endpoint, name will be got from the req body, raw, json input
+    const result = await pool.query(queryUpdateArtist, [name,id]);
 
-  console.log("update artist : result.rows[0]")
-  return result.rows[0];
+    console.log("update artist : result.rows[0]")
+    return result.rows[0];
 
-} catch (error) {
-		console.error(`Error updating an artist : ${error.message}`); //log the error for debugging
+  } catch (error) {
+      console.error(`Error updating an artist : ${error.message}`); //log the error for debugging
 
-		throw new Error(
-			`Failed to update an artist: ${error.message}`
-		); // re-throw the error handled by the caller
-	}
+      throw new Error(
+        `Failed to update an artist: ${error.message}`
+      ); // re-throw the error handled by the caller
+  }
 }
 
 export async function deleteArtistById(id) {
 
   // Query the database to delete the artist and return the deleted artist or null
-  
+    const queryDeleteArtist = `
+    DELETE FROM artists
+    WHERE id = $1
+    RETURNING *
+  `;
+  try {
+		const result = await pool.query(queryDeleteArtist, [id]); //using the pool query to query the database
+		// sending [id] as a parameter to prevent sql injection
+
+		console.log(result);
+
+		return result.rows[0] || null; // return the first row from the result or null if nothing was deleted
+	} catch (error) {
+		console.error(`Error querying artist by ID ${id}: ${error}`); //log the error for debugging
+
+		throw new Error(
+			`Failed to delete artist with ID ${id}  : ${error.message}`
+		); // throw the error with a message
+	}
 
 }
