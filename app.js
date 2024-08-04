@@ -106,6 +106,51 @@ app.get("/artist/:id", async function (req, res) {
 
 // Endpoint to create a new artist
 app.post("/artist/", async function (req, res) {
+  
+  const data = req.body;
+
+  try {
+    // ensure data contains necessary properties
+    if (!data || !data.name) {
+			res.status(400).json({
+				status: "fail",
+				data: { message: "Please provide artist details in JSON format  with 'name property" },
+			}); // handle the error if wrong id is provided
+			return;
+		}
+
+    // call the createArtist function
+		const createdArtist = await createArtist(data);
+
+    // check if the artist creation was successful
+
+    if (!createdArtist) {
+      res.status(400)
+        .json({
+          status: fail,
+          data: { message: 'Artist creation failed' }
+        });
+      return
+    }
+
+		
+
+		res.status(200).json({
+			status: "success",
+			data: createdArtist,
+    });
+    
+
+	} catch (error) {
+		console.error(`Error creating this particular artist : ${error}`); // handle error message in console.
+
+		// send 500 status response with the error details
+		res.status(500).json({
+			status: "fail",
+      data: { message: "internal server error", error: error.message },
+		}); // handle error message if something goes wrong during the process.
+	}
+
 
 });
 
