@@ -37,7 +37,30 @@ app.use(morgan('dev')); //used for logging http requests
 
 // Endpoint to retrieve all artists
 app.get("/artist/", async function (req, res) {
-  res.send("Hello world!");
+  // res.send("Hello world!");
+
+  try {
+    const allArtists = await getArtists();
+
+    res.status(200)
+      .json({
+        status: "success",
+        data: allArtists
+      })
+    
+  } catch (error) {
+
+    console.error(`Error getting Artist List : ${error}`);
+
+    throw error;
+
+    res.status(500).json({
+      status: "fail",
+      data: error
+    })
+
+     
+  }
 
 });
 
