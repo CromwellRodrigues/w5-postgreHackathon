@@ -12,9 +12,9 @@ export async function getArtists() {
           `;
   
   try {
-    const allArtists = await pool.query(artistsList); // execute  SQL query to retrieve the list of all artist from the database. 
+    const result = await pool.query(artistsList); // execute  SQL query to retrieve the list of all artist from the database. 
 
-    return allArtists.rows|| null; // return all rows from the query result or null if there are no rows
+    return result.rows|| null; // return all rows from the query result or null if there are no rows
 
   }
   catch (error) {
@@ -34,12 +34,12 @@ export async function getArtistById(id) {
 
   try {
 
-    const artist = await pool.query(queryArtist, [id]); //using the pool query to query the database
+    const result = await pool.query(queryArtist, [id]); //using the pool query to query the database
     // sending [id] as a parameter to prevent sql injection
 
-    console.log(artist);
+    console.log(result);
 
-    return artist.rows[0] || null; // return the first row from the result or null if there is no artist
+    return result.rows[0] || null; // return the first row from the result or null if there is no artist
 
 
   } catch (error) {
