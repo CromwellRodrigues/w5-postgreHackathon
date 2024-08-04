@@ -23,7 +23,31 @@ export async function getArtists() {
 };
 
 export async function getArtistById(id) {
-	// Query the database and return the artist with a matching id or null
+  // Query the database and return the artist with a matching id or null
+  
+  const queryArtist = `
+    SELECT *
+    FROM artists
+    where id = $1
+  `;
+
+  try {
+
+    const artist = await pool.query(queryArtist, [id]); //using the pool query to query the database
+    // sending [id] as a parameter to prevent sql injection
+
+    console.log(artist);
+
+    return artist.rows[0] || null; // return the first row from the result or null if there is no artist
+
+
+  } catch (error) {
+    
+    console.error(`Error querying artist by ID ${id}: ${error}`);  //log the error for debugging  
+
+    throw new Error(`Failed to retrieve artist with ID ${id}  : ${error.message}`); // throw the error with a message
+      
+	}
 }
 
 export async function createArtist(artist) {
