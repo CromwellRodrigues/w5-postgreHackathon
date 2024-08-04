@@ -1,6 +1,7 @@
 // Import the required modules
 import express, { request } from "express";
-import helmet from helmet;
+import helmet from "helmet";
+import morgan from "morgan";
 
 
 // Import your helper functions for your first resource here
@@ -30,11 +31,13 @@ const PORT = process.env.PORT;
 
 app.use(express.json()); // express.json() middleware is used to parse incoming JSON requests
 app.use(helmet()); // use helmet to secure application
+app.use(morgan('dev')); //used for logging http requests
 
 // Artist Route Handlers
 
 // Endpoint to retrieve all artists
 app.get("/artist/", async function (req, res) {
+  res.send("Hello world!");
 
 });
 
