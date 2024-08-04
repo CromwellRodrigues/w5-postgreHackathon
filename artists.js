@@ -11,14 +11,14 @@ export async function getArtists() {
           `;
   
   try {
-    const allArtists = await pool.query(artistsList);
+    const allArtists = await pool.query(artistsList); // execute  SQL query to retrieve the list of all artist from the database. 
 
-    return allArtists.rows[0] || null;
+    return allArtists.rows|| null; // return all rows from the query result or null if there are no rows
 
   }
   catch (error) {
 
-    throw new Error(`msg : ${error}`);
+    throw new Error(`msg : ${error}`); // handle any error if the request fails
   }
 };
 
