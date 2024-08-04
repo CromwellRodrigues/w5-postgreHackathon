@@ -2,9 +2,25 @@
 import { pool } from "./db/index.js";
 
 export async function getArtists() {
-	// Query the database and return all artists
-	console.log("calling all artists");
-}
+  // Query the database and return all artists
+  // console.log("calling all artists");
+
+  const artistsList = `
+          SELECT *
+          FROM artists
+          `;
+  
+  try {
+    const allArtists = await pool.query(artistsList);
+
+    return allArtists.rows[0] || null;
+
+  }
+  catch (error) {
+
+    throw new Error(`msg : ${error}`);
+  }
+};
 
 export async function getArtistById(id) {
 	// Query the database and return the artist with a matching id or null
