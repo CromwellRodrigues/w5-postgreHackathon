@@ -52,9 +52,7 @@ app.get("/artist/", async function (req, res) {
 
     console.error(`Error getting Artist List : ${error}`); // handle error message in console.
 
-    throw error;
-
-    // error status message 
+        // error status message 
     res.status(500).json({ 
       status: "fail",
       data: error
@@ -156,6 +154,43 @@ app.post("/artist/", async function (req, res) {
 
 // Endpoint to update a specific artist by id
 app.patch("/artist/:id", async function (req, res) {
+
+  const id = req.params.id;
+  const data = req.body;
+
+  try {
+		if (!id || !data.name) {
+			return res.status(400).json({
+				status: "fail",
+				data: { message: "Artist update failed, missing id or name" },
+			});
+			
+		}
+
+		// call the update function
+		const updatedArtist = await updateArtistById(id, data.name);
+
+		if (!updatedArtist) {
+			return res.status(400).json({
+				status: "fail",
+				data: { message: "Artist updating failed" },
+			});
+			
+		}
+
+		res.status(200).json({
+			status: "success",
+			data: updatedArtist,
+		});
+	} catch (error) {
+		console.error(`Error updating this particular artist : ${error.message}`); // handle error message in console.
+
+		// send 500 status response with the error details
+		res.status(500).json({
+			status: "fail",
+			data: { message: "internal server error", error: error.message },
+		}); // handle error message if something goes wrong during the process.
+	}
 
 });
 
