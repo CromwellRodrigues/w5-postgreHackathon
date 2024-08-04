@@ -68,6 +68,40 @@ app.get("/artist/", async function (req, res) {
 // Endpoint to retrieve an artist by id
 app.get("/artist/:id", async function (req, res) {
 
+  try {
+    const id = req.params.id; // retrieve id from the request URL
+    const artist = await getArtistById(id); //fetch the artist details using the provided ID
+
+    if (!artist) {
+      return res
+        .status(404)
+        .json({
+          status: 'fail',
+          data: { message: 'No artist with that id exists' }
+        }) // handle the error if wrong id is provided
+      
+    }
+    res.status(200)
+      .json({
+        status: "success",
+        data : artist 
+    }) // send response with artist info if ID exists
+  }
+
+  catch (error) {
+    console.error(`Error getting this particular artist : ${error}`); // handle error message in console.
+
+		
+
+		// send 500 status response with the error details
+		res.status(500).json({
+			status: "fail",
+			data: error,
+		}); // handle error message if something goes wrong during the process.
+
+
+  }
+
 });
 
 // Endpoint to create a new artist
