@@ -87,10 +87,42 @@ export async function createArtist(artist) {
 
 }
 
-export async function updateArtistById(id, artist) {
-	// Query the database to update the resource and return the newly updated artist or null
+export async function updateArtistById(id, name) {
+  // Query the database to update the resource and return the newly updated artist or null
+  
+  const queryUpdateArtist = `
+    UPDATE artists
+    SET name = $1
+    WHERE id = $2
+    RETURNING *
+  `
+
+
+try {
+    // validate artist name 
+    if (!name) {
+      console.error('Artist name is required')
+      return null;
+  }
+  
+  // send query to database, ID is taken from the ID argument in function call in the endpoint, name will be got from the req body, raw, json input
+  const result = await pool.query(queryUpdateArtist, [name,id]);
+
+  console.log("update artist : result.rows[0]")
+  return result.rows[0];
+
+} catch (error) {
+		console.error(`Error updating an artist : ${error.message}`); //log the error for debugging
+
+		throw new Error(
+			`Failed to update an artist: ${error.message}`
+		); // re-throw the error handled by the caller
+	}
 }
 
 export async function deleteArtistById(id) {
-	// Query the database to delete the artist and return the deleted artist or null
+
+  // Query the database to delete the artist and return the deleted artist or null
+  
+
 }
